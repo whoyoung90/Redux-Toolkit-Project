@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-// import AppBar from "./components/AppBar";
+import AppBar from "./components/AppBar";
 import BoardList from "./components/board/BoardList";
 import BoardMenu from "./components/board/BoardMenu";
 import TodoList from "./components/todo/TodoList";
@@ -12,7 +12,7 @@ function App() {
 
   return (
     <Wrapper>
-      {/* <AppBar /> */}
+      <AppBar />
 
       <ContentContainer>
         <BoardContainer>

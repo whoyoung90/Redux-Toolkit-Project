@@ -5,11 +5,11 @@ const initialState = {
   boards: [],
   selectedBoardId: null,
 
-  // resetBoardSaga: {
-  //   pending: false,
-  //   data: null,
-  //   error: null,
-  // },
+  resetBoardSaga: {
+    pending: false,
+    data: null,
+    error: null,
+  },
 };
 
 const boardSlice = createSlice({
@@ -53,30 +53,29 @@ const boardSlice = createSlice({
           console.log(action.type);
         });
     },
-    //   // resetBoardSaga
-    //   resetBoardSagaRequested: (state, action) => {
-    //     state.resetBoardSaga = {
-    //       ...state.resetBoardSaga,
-    //       pending: true,
-    //       data: null,
-    //       error: null,
-    //     };
-    //   },
-    //   resetBoardSagaSucceeded: (state, action) => {
-    //     state.resetBoardSaga = {
-    //       ...state.resetBoardSaga,
-    //       pending: false,
-    //       data: action.payload,
-    //     };
-    //   },
-    //   resetBoardSagaFailed: (state, action) => {
-    //     state.resetBoardSaga = {
-    //       ...state.resetBoardSaga,
-    //       pending: false,
-    //       error: action.payload,
-    //     };
-    //   },
-    // },
+    // resetBoardSaga
+    resetBoardSagaRequested: (state, action) => {
+      state.resetBoardSaga = {
+        ...state.resetBoardSaga,
+        pending: true,
+        data: null,
+        error: null,
+      };
+    },
+    resetBoardSagaSucceeded: (state, action) => {
+      state.resetBoardSaga = {
+        ...state.resetBoardSaga,
+        pending: false,
+        data: action.payload,
+      };
+    },
+    resetBoardSagaFailed: (state, action) => {
+      state.resetBoardSaga = {
+        ...state.resetBoardSaga,
+        pending: false,
+        error: action.payload,
+      };
+    },
   },
 });
 
@@ -86,10 +85,10 @@ export const {
   deleteBoard,
   selectBoard,
   resetBoard,
-  // // resetBoardSaga
-  // resetBoardSagaRequested,
-  // resetBoardSagaSucceeded,
-  // resetBoardSagaFailed,
+  //  resetBoardSaga
+  resetBoardSagaRequested,
+  resetBoardSagaSucceeded,
+  resetBoardSagaFailed,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;
