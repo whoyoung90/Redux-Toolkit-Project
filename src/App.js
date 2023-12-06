@@ -3,11 +3,12 @@ import styled from "styled-components";
 // import AppBar from "./components/AppBar";
 import BoardList from "./components/board/BoardList";
 import BoardMenu from "./components/board/BoardMenu";
-// import TodoList from "./components/todo/TodoList";
-// import TodoMenu from "./components/todo/TodoMenu";
+import TodoList from "./components/todo/TodoList";
+import TodoMenu from "./components/todo/TodoMenu";
 
 function App() {
-  // const isBoardSelected = useSelector((state) => !!state.board.selectedBoardId);
+  // double NOT 연산자(!!)
+  const isBoardSelected = useSelector((state) => !!state.board.selectedBoardId);
 
   return (
     <Wrapper>
@@ -19,10 +20,10 @@ function App() {
           <BoardMenu />
         </BoardContainer>
 
-        {/* <TodoContainer>
+        <TodoContainer>
           <TodoList />
           {isBoardSelected && <TodoMenu />}
-        </TodoContainer> */}
+        </TodoContainer>
       </ContentContainer>
     </Wrapper>
   );

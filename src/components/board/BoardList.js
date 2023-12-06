@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { selectBoard, deleteBoard } from "../../redux/slices/boardSlice";
-// import deleteBoardThunk from "../../redux/thunks/deleteBoardThunk";
+import { selectBoard } from "../../redux/slices/boardSlice";
+import deleteBoardThunk from "../../redux/thunks/deleteBoardThunk";
 import BoardItem from "./BoardItem";
 
 function BoardList(props) {
@@ -21,11 +21,9 @@ function BoardList(props) {
             onSelect={() => {
               dispatch(selectBoard(board.id));
             }}
-            // onDelete={() => {
-            //   dispatch(deleteBoardThunk(board.id));
-            // }}
+            // 삭제 클릭시 deleteBoard가 아닌 deleteBoardThunk를 dispatch
             onDelete={() => {
-              dispatch(deleteBoard(board.id));
+              dispatch(deleteBoardThunk(board.id));
             }}
           />
         );
