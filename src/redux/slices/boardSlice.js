@@ -81,7 +81,6 @@ const boardSlice = createSlice({
 
 export const {
   createBoard,
-  updateBoard,
   deleteBoard,
   selectBoard,
   resetBoard,
