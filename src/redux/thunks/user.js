@@ -19,6 +19,7 @@ export const logIn = createAsyncThunk("user/logIn", async (data, thunkAPI) => {
 
   // throw new Error("비밀번호가 틀렸습니다.");
 
+  // const response = await axios.post("/login", {email, password});
   // 로그인 API POST시 응답 -> userId, nickname
   const result = await delay(500, {
     userId: 1,

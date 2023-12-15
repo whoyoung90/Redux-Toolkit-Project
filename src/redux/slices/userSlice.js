@@ -3,9 +3,14 @@ import { logIn } from "../thunks/user";
 
 const initialState = {
   isLoggingIn: false,
+  isLoggedIn: false,
+  error: false,
   data: null,
   email: "",
   password: "",
+  prices: Array(100)
+    .fill()
+    .map((v, i) => (i + 1) * 100),
 };
 
 const userSlice = createSlice({
@@ -29,6 +34,8 @@ const userSlice = createSlice({
         logIn.pending,
         (state, action) => {
           state.isLoggingIn = true;
+          state.isLoggedIn = false;
+          state.error = false;
         }
       )
       .addCase(
@@ -37,6 +44,8 @@ const userSlice = createSlice({
         (state, action) => {
           state.data = action.payload; // userId, nickname
           state.isLoggingIn = false;
+          state.isLoggedIn = true;
+          state.error = false;
         }
       )
       .addCase(
@@ -45,6 +54,8 @@ const userSlice = createSlice({
         (state, action) => {
           state.data = null;
           state.isLoggingIn = false;
+          state.isLoggedIn = false;
+          state.error = action.payload;
         }
       )
       .addMatcher(

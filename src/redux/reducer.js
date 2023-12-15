@@ -9,6 +9,8 @@ const rootReducer = combineReducers({
   todo: todoReducer,
   user: userSlice,
   posts: postSlice,
+  // loading: loadingSlice, // 모든 로딩 처리
+  // error: errorSlice, // 모든 에러 처리
 });
 
 export default rootReducer;
