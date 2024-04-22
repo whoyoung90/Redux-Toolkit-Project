@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createSelector } from "@reduxjs/toolkit";
 import styled from "styled-components";
+
 import AppBar from "./components/AppBar";
 import BoardList from "./components/board/BoardList";
 import BoardMenu from "./components/board/BoardMenu";
@@ -10,7 +11,7 @@ import TodoMenu from "./components/todo/TodoMenu";
 
 import { logIn } from "./redux/thunks/user";
 import { addPost } from "./redux/thunks/post";
-import { logOut, setLoginForm } from "./redux/slices/userSlice";
+import { logOut } from "./redux/slices/userSlice";
 
 /**
  * useMemo의 역할을 createSelector로 한단계 더 끌어올림
@@ -26,22 +27,27 @@ const sumPriceSelector = createSelector(priceSelector, (prices) =>
 
 function App() {
   const dispatch = useDispatch();
+
   const isBoardSelected = useSelector((state) => !!state.board.selectedBoardId); // double NOT 연산자(!!)
   const user = useSelector((state) => state.user);
   const totalPrice = useSelector(sumPriceSelector);
 
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const onClick = useCallback(() => {
-    // 비동기 action
-    dispatch(
-      logIn({
-        id: "wooyoung",
-        password: "비밀번호",
-      })
-    );
-  }, [dispatch]);
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      // 비동기 action
+      dispatch(
+        logIn({
+          username,
+          password,
+        })
+      );
+    },
+    [dispatch, username, password]
+  );
 
   const onLogout = useCallback(() => {
     // 동기 action
@@ -52,28 +58,15 @@ function App() {
     dispatch(addPost());
   }, [dispatch]);
 
-  const onChangeEmail = useCallback((e) => {
-    setEmail(e.target.value);
+  const onChangeUsername = useCallback((e) => {
+    setUsername(e.target.value);
   }, []);
   const onChangePassword = useCallback((e) => {
     setPassword(e.target.value);
   }, []);
 
-  const onSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      dispatch(
-        setLoginForm({
-          email,
-          password,
-        })
-      );
-    },
-    [dispatch, email, password]
-  );
-
   /**
-   * email 입력시 useState가 변경되면 "컴포넌트 전부 리렌더링"
+   * username 입력시 useState가 변경되면 "컴포넌트 전부 리렌더링"
    * prices.reduce 연산도 계속 된다.
    * => useMemo로 prices값 캐싱하자
    */
@@ -85,23 +78,33 @@ function App() {
   return (
     <Wrapper>
       <AppBar />
-      <form onSubmit={onSubmit}>
-        <input type="text" value={email} onChange={onChangeEmail} />
-        <input type="password" value={password} onChange={onChangePassword} />
-        <button>test</button>
-      </form>
+      {!user.data ? (
+        <form onSubmit={onSubmit}>
+          <input
+            type="text"
+            name="username"
+            value={username}
+            onChange={onChangeUsername}
+          />
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={onChangePassword}
+          />
+          <button>로그인</button>
+        </form>
+      ) : (
+        <button onClick={onLogout}>로그아웃</button>
+      )}
+
       <div>
         {user.isLoggingIn ? (
           <div>로그인 중</div>
         ) : user.data ? (
-          <div>{user.data.nickname}</div>
+          <div>아이디: {user.data.username}</div>
         ) : (
           "로그인 해주세요"
-        )}
-        {!user.data ? (
-          <button onClick={onClick}>로그인</button>
-        ) : (
-          <button onClick={onLogout}>로그아웃</button>
         )}
         <div>
           <b>{totalPrice}원</b>

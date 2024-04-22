@@ -6,8 +6,6 @@ const initialState = {
   isLoggedIn: false,
   error: false,
   data: null,
-  email: "",
-  password: "",
   prices: Array(100)
     .fill()
     .map((v, i) => (i + 1) * 100),
@@ -20,10 +18,6 @@ const userSlice = createSlice({
   reducers: {
     logOut(state, action) {
       state.data = null;
-    },
-    setLoginForm(state, action) {
-      state.email = action.payload.email;
-      state.password = action.payload.password;
     },
   },
   // 비동기 action & 외부 action
@@ -42,7 +36,7 @@ const userSlice = createSlice({
         // user/logIn/fulfilled
         logIn.fulfilled,
         (state, action) => {
-          state.data = action.payload; // userId, nickname
+          state.data = action.payload; // id, username
           state.isLoggingIn = false;
           state.isLoggedIn = true;
           state.error = false;
@@ -67,7 +61,6 @@ const userSlice = createSlice({
 });
 
 export const { logOut, setLoginForm } = userSlice.actions;
-
 export default userSlice.reducer;
 
 // const userReducer = (prevState = initialState, action) => {

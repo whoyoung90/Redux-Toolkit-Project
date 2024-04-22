@@ -29,7 +29,7 @@ function AppBar() {
   return (
     <Wrapper>
       <span>
-        <b>처음 만난 리덕스 TODO</b>
+        <b>Redux Tool Kit</b>
       </span>
 
       <MenuContainer>
