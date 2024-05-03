@@ -8,14 +8,13 @@ const initialState = {
 const postSlice = createSlice({
   name: "post",
   initialState,
-  // 동기 action & 내부 action
+  // 동기 action || postReducer에 종속된 action
   reducers: {
-    // postSlice.actions.clearPost로 접근
     clearPost(state, action) {
       state.data = [];
     },
   },
-  // 비동기 action & 외부 action
+  // 비동기 action || 외부 action
   extraReducers: (builder) => {
     builder
       // .addCase(logIn.pending, (state, action) => {}) // 여기서도 사용 가능
@@ -26,20 +25,20 @@ const postSlice = createSlice({
       .addCase(addPost.rejected, (state, action) => {})
       .addMatcher(
         (action) => {
-          return action.type.includes("/pending");
+          // pending, fullfilled, rejected가 계속 쌓여나갈때 공통 처리
+          return action.type.includes("/pending"); // 이부분이 true가 되는 action들
         },
         (state, action) => {
           state.isLoading = true;
         }
       )
       .addDefaultCase((state, action) => {
-        // default
+        // switch문 default와 동일
       });
   },
 });
 
 export const { clearPost } = postSlice.actions;
-
 export default postSlice.reducer;
 
 /**
@@ -56,6 +55,16 @@ export default postSlice.reducer;
  * @description addMatcher
  * - 여러 action들의 공통 상태값 처리 (ex loading)
  *
+ * .addCase(action1.pending, (state, action) => {})
+ * .addCase(action1.fulfilled, (state, action) => {})
+ * .addCase(action1.rejected, (state, action) => {})
+ * .addCase(action2.pending, (state, action) => {})
+ * .addCase(action2.fulfilled, (state, action) => {})
+ * .addCase(action2.rejected, (state, action) => {})
+ * .addCase(action3.pending, (state, action) => {})
+ * .addCase(action3.fulfilled, (state, action) => {})
+ * .addCase(action3.rejected, (state, action) => {})
+ *
  * switch() {
  *   case "add_pending":
  *   case "update_pending":
@@ -63,16 +72,3 @@ export default postSlice.reducer;
  *     break;
  * }
  */
-
-// const initialState = [];
-// const postReducer = (prevState = initialState, action) => {
-//   return produce(prevState, (draft) => {
-//     switch (action.type) {
-//       case "ADD_POST":
-//         draft.push(action.data);
-//         break;
-//       default:
-//         break;
-//     }
-//   });
-// };
